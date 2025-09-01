@@ -1,0 +1,23 @@
+# venv / Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Flet
+.build/
+dist/
+
+# Ambiente/segredos
+.env
+.env.local
+.env.*

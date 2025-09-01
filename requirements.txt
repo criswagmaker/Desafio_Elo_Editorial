@@ -1,0 +1,5 @@
+# path: requirements.txt
+crewai>=0.51.1
+python-dotenv>=1.0.1
+google-generativeai>=0.7.2
+flet>=0.22.0

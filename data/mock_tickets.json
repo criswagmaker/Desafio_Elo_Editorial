@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "status": "open",
+    "timestamp": "2025-09-01T02:13:39.639224+00:00",
+    "name": "Cristian",
+    "email": "Cristian@email.com",
+    "subject": "Pedido",
+    "message": "preciso de suporte para meu pedido"
+  },
+  {
+    "id": 2,
+    "status": "open",
+    "timestamp": "2025-09-01T02:23:39.697345+00:00",
+    "name": "Cristian",
+    "email": "cristian@example.com",
+    "subject": "Problema no pedido",
+    "message": "Não recebi meu livro."
+  }
+]
