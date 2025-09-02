@@ -27,78 +27,63 @@ def _bold_weight():
     # compat: algumas versões do Flet têm BOLD, outras só W_700
     return getattr(ft.FontWeight, "BOLD", getattr(ft.FontWeight, "W_700", None))
 
+def _clean_value(v: str) -> str:
+    """Remove ênfases '**', bullets, espaços, asteriscos residuais."""
+    if not v:
+        return v
+    # tira markdown bold/itálico nas pontas
+    v = re.sub(r"^\s*[*_]{1,3}\s*", "", v)
+    v = re.sub(r"\s*[*_]{1,3}\s*$", "", v)
+    # remove bullets
+    v = re.sub(r"^\s*[-•*]\s*", "", v)
+    # espaços e asteriscos soltos
+    v = v.replace("**", "").strip(" *\t\r\n")
+    return v.strip()
+
 # ---------- book details ----------
 def _parse_details(md: str) -> Dict[str, str]:
     """
     Parser tolerante para os detalhes do livro.
-    Aceita variações:
-      - **Título:** A Abelha
-      - **Título**: A Abelha
-      - Título: A Abelha
-      - (com/sem **, com/sem espaço antes/dep. dos dois-pontos)
-    Também tenta padrões globais como **Sinopse:** <texto>
+    Aceita variações com/sem ** e com/sem ':'.
     """
     result: Dict[str, str] = {}
     if not md:
         return result
 
-    # 1) match direto por regex linha-a-linha (labels comuns)
+    # 1) linha-a-linha
     lines = [ln.strip() for ln in md.splitlines() if ln.strip()]
     for ln in lines:
-        # remove ênfase markdown nas extremidades para facilitar split
-        cleaned = ln
-        # tira ** do começo/fim e bullets
-        cleaned = re.sub(r"^\s*[*•-]+\s*", "", cleaned)
+        # normaliza: remove bullets e ** próximos às extremidades
+        cleaned = re.sub(r"^\s*[-•*]+\s*", "", ln)
         cleaned = re.sub(r"^\s*\*{1,3}\s*", "", cleaned)
         cleaned = re.sub(r"\s*\*{1,3}\s*$", "", cleaned)
 
-        # tenta split por ":" na primeira ocorrência
+        # split label: valor
         if ":" in cleaned:
             label, value = cleaned.split(":", 1)
             label_n = _norm_label(label)
-            value = value.strip()
+            value = _clean_value(value)
 
             if label_n in {"titulo", "título"} and value:
-                result["title"] = value
-                continue
+                result["title"] = value; continue
             if label_n == "autor" and value:
-                result["author"] = value
-                continue
+                result["author"] = value; continue
             if label_n == "imprint" and value:
-                result["imprint"] = value
-                continue
+                result["imprint"] = value; continue
             if label_n in {"lancamento", "lançamento"} and value:
-                result["release"] = value
-                continue
+                result["release"] = value; continue
             if label_n == "sinopse" and value:
-                result["synopsis"] = value
-                continue
+                result["synopsis"] = value; continue
 
-    # 2) fallback por regex global (caso não tenha splitado bem em linhas)
-    if "title" not in result:
-        m = re.search(r"\*\*\s*T[íi]tulo\s*:\s*\*\*\s*(.+)", md, flags=re.IGNORECASE)
-        if m:
-            result["title"] = m.group(1).strip()
-    if "author" not in result:
-        m = re.search(r"\*\*\s*Autor\s*:\s*\*\*\s*(.+)", md, flags=re.IGNORECASE)
-        if m:
-            result["author"] = m.group(1).strip()
-    if "imprint" not in result:
-        m = re.search(r"\*\*\s*Imprint\s*:\s*\*\*\s*(.+)", md, flags=re.IGNORECASE)
-        if m:
-            result["imprint"] = m.group(1).strip()
-    if "release" not in result:
-        m = re.search(r"\*\*\s*Lan[çc]amento\s*:\s*\*\*\s*(.+)", md, flags=re.IGNORECASE)
-        if m:
-            result["release"] = m.group(1).strip()
+    # 2) fallback global para sinopse
     if "synopsis" not in result:
-        # captura até quebra dupla de linha ou fim
         m = re.search(r"\*\*\s*Sinopse\s*:\s*\*\*\s*([\s\S]+)$", md, flags=re.IGNORECASE)
         if m:
-            synopsis = m.group(1).strip()
-            # remove excesso de asteriscos residuais
-            synopsis = synopsis.strip("* ").strip()
-            result["synopsis"] = synopsis
+            result["synopsis"] = _clean_value(m.group(1))
+
+    # última limpeza de valores (evita asterisco sobrando)
+    for k in list(result.keys()):
+        result[k] = _clean_value(result[k])
 
     return result
 
@@ -170,9 +155,9 @@ def stores_markdown_to_sections(markdown_text: str) -> Dict[str, List[str]]:
         if low.startswith("- ") or low.startswith("* ") or low.startswith("• "):
             item = stripped[2:].strip()
             if current in ("Lojas físicas", "Online"):
-                sections[current].append(item)
+                sections[current].append(_clean_value(item))
             else:
-                sections["Online"].append(item)  # fallback
+                sections["Online"].append(_clean_value(item))  # fallback
 
     return sections
 

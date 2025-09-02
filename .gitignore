@@ -1,23 +1,44 @@
-# venv / Python
+# Ambiente virtual
 .venv/
+venv/
+ENV/
+env/
+
+# Arquivos de ambiente
+.env
+.env.*
+!.env.example
+
+# Cache / build
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
-*.egg-info/
+*.db
+*.sqlite3
+*.log
+*.pot
 
-# OS
-.DS_Store
-
-# IDE
+# Configs locais / IDE
+*.swp
+*.swo
+*~
 .vscode/
 .idea/
+*.iml
 
-# Flet
-.build/
+# Arquivos temporários
+.DS_Store
+Thumbs.db
+
+# Saídas de testes
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+
+# Pacotes / distribuições
 dist/
-
-# Ambiente/segredos
-.env
-.env.local
-.env.*
+build/
+*.egg-info/
+.eggs/

@@ -2,10 +2,6 @@ from __future__ import annotations
 
 from typing import Optional, Dict, List
 
-# Mantemos o get_llm só se você quiser usar o LLM para reformatar textos depois.
-# Para este MVP, vamos formatar nós mesmos (sem CrewAI aqui).
-# from core.llm import get_llm
-
 from tools.catalog_tools import get_book_details, find_stores_selling_book
 
 

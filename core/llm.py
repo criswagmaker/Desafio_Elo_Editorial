@@ -36,7 +36,7 @@ def get_llm(cfg: Optional[LLMConfig] = None):
 
     return LLM(
         model=model_id,
-        provider="google",       # 👈 ESSENCIAL
+        provider="google",       # ESSENCIAL
         api_key=cfg.api_key,
         temperature=cfg.temperature,
         max_tokens=cfg.max_tokens,
