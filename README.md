@@ -9,23 +9,30 @@ Este projeto implementa um **assistente editorial** conforme os requisitos do de
 - **Segurança**: chave em `.env`, nunca no código
 - **Arquitetura**: clara, modular, código limpo
 
----
+## 💡Tecnologias Utilizadas
+- Python 3.11+
+- CrewAI
+- CrewAI Tools
+- Gemini API (Google AI)
+- Flet
+- python-dotenv
+- pip/venv
 
 ## 🚀 Instalação
 
-### 1. Clonar o repositório
+#### 1. Clonar o repositório
 ```bash
 git clone https://github.com/criswagmaker/Desafio-Elo-Editorial.git
 cd Desafio-Elo-Editorial
 ```
 
-### 2. Criar ambiente virtual
+#### 2. Criar ambiente virtual
 ```bash
 python -m venv .venv
 source .venv/bin/activate     # Linux/Mac
 .venv\Scripts\activate        # Windows
 ```
-### 3. Instalar dependências
+#### 3. Instalar dependências
 ```bash
 pip install -r requirements.txt
 ```
@@ -72,6 +79,7 @@ Exemplo de estrutura:
   ]
 }
 ```
+
 ## ▶️ Como rodar
 #### 1. CLI
 
