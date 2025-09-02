@@ -118,7 +118,7 @@ Cenário B
 Usuário: Onde compro "A Abelha"?
 Bot: (mostra opções de compra)
 ```
-Cenário B
+Cenário C
 ```bash
 Usuário: Abra um ticket 'Dúvida sobre submissão'
 Bot: (abre formulário de ticket, usuário preenche e envia)
