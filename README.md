@@ -22,8 +22,8 @@ Este projeto implementa um **assistente editorial** conforme os requisitos do de
 
 #### 1. Clonar o repositório
 ```bash
-git clone https://github.com/criswagmaker/Desafio-Elo-Editorial.git
-cd Desafio-Elo-Editorial
+git clone https://github.com/criswagmaker/Desafio_Elo_Editorial.git
+cd Desafio_Elo_Editorial
 ```
 
 #### 2. Criar ambiente virtual
